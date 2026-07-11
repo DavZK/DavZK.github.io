@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DavZK | GitHub Pages</title>
+  <meta name="description" content="Sitio personal de DavZK alojado en GitHub Pages.">
+  <style>
+    :root {
+      --bg: #1a1d22;
+      --bg-alt: #23272d;
+      --surface: rgba(255, 255, 255, 0.04);
+      --surface-strong: rgba(255, 255, 255, 0.07);
+      --text: #f3f5f7;
+      --muted: #b2bac4;
+      --accent: #d6dde6;
+      --accent-2: #8f9baa;
+      --border: rgba(255, 255, 255, 0.08);
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 30%),
+        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.04), transparent 22%),
+        linear-gradient(160deg, var(--bg), var(--bg-alt));
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      padding: 32px;
+    }
+
+    .shell {
+      width: min(1040px, 100%);
+    }
+
+    .content {
+      max-width: 1040px;
+      display: grid;
+      gap: 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: var(--surface);
+    }
+
+    .eyebrow span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: 0 0 14px rgba(255, 255, 255, 0.22);
+    }
+
+    h1 {
+      margin: 22px 0 14px;
+      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      max-width: 10ch;
+    }
+
+    p {
+      margin: 0;
+      max-width: 60ch;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.75;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 18px;
+      border-radius: 14px;
+      border: 1px solid transparent;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform 180ms ease, border-color 180ms ease, background 180ms ease, color 180ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+    }
+
+    .button.primary {
+      color: #121418;
+      background: linear-gradient(135deg, #edf1f5, #cfd6de);
+    }
+
+    .button.secondary {
+      color: var(--text);
+      border-color: var(--border);
+      background: var(--surface);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      padding-top: 4px;
+    }
+
+    .panel {
+      padding: 0;
+      border-top: 1px solid var(--border);
+      background: transparent;
+    }
+
+    .panel strong {
+      display: block;
+      margin: 16px 0 8px;
+      font-size: 0.98rem;
+      letter-spacing: 0.02em;
+    }
+
+    .panel small {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      body {
+        padding: 18px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="content">
+      <div class="eyebrow"><span></span> GitHub Pages en construcción</div>
+      <div>
+        <h1>DavZK</h1>
+        <p>
+          Este espacio será la página principal de mi sitio en GitHub Pages.
+          Aquí habrá proyectos, enlaces y contenido personal presentado de forma clara y directa.
+        </p>
+      </div>
+
+      <div class="actions">
+        <a class="button primary" href="https://github.com/DavZK" target="_blank" rel="noreferrer">Ver GitHub</a>
+        <a class="button secondary" href="mailto:contacto@davzk.io">Contacto</a>
+      </div>
+
+      <div class="grid">
+        <article class="panel">
+          <strong>Proyectos</strong>
+          <small>Un lugar para destacar repositorios, demos y trabajo en curso.</small>
+        </article>
+        <article class="panel">
+          <strong>Bio</strong>
+          <small>Una introducción breve con enfoque profesional y sencillo.</small>
+        </article>
+        <article class="panel">
+          <strong>Contacto</strong>
+          <small>Enlaces rápidos para redes, correo y otras formas de conexión.</small>
+        </article>
+      </div>
+    </div>
+    <footer>Preparado para publicar en GitHub Pages.</footer>
+  </main>
+</body>
+</html>
