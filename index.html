@@ -7,16 +7,16 @@
   <meta name="description" content="Sitio personal de DavZK alojado en GitHub Pages.">
   <style>
     :root {
-      --bg: #1a1d22;
-      --bg-alt: #23272d;
+      --bg: #171a1f;
+      --bg-alt: #22262c;
       --surface: rgba(255, 255, 255, 0.04);
-      --surface-strong: rgba(255, 255, 255, 0.07);
+      --surface-strong: rgba(255, 255, 255, 0.08);
       --text: #f3f5f7;
-      --muted: #b2bac4;
-      --accent: #d6dde6;
-      --accent-2: #8f9baa;
+      --muted: #b8c0ca;
+      --accent: #e3e8ee;
+      --accent-2: #97a3b3;
       --border: rgba(255, 255, 255, 0.08);
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -27,27 +27,116 @@
       margin: 0;
       min-height: 100%;
       background:
-        radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 30%),
-        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.04), transparent 22%),
+        radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.04), transparent 20%),
         linear-gradient(160deg, var(--bg), var(--bg-alt));
       color: var(--text);
       font-family: "Segoe UI", Arial, sans-serif;
     }
 
     body {
+      padding: 28px 28px 28px 108px;
+    }
+
+    .page-ribbon {
+      position: fixed;
+      z-index: 10;
+      top: 12vh;
+      bottom: 12vh;
+      left: 22px;
+      display: grid;
+      align-content: space-between;
+      gap: 0;
+    }
+
+    .page-ribbon::before {
+      content: "";
+      position: absolute;
+      top: 10px;
+      bottom: 10px;
+      left: 14px;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(227, 232, 238, 0.7), transparent);
+      pointer-events: none;
+    }
+
+    .ribbon-link {
+      position: relative;
       display: grid;
       place-items: center;
-      padding: 32px;
+      width: 30px;
+      height: 30px;
+      color: var(--muted);
+      text-decoration: none;
+    }
+
+    .ribbon-link::before {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border: 1px solid currentColor;
+      background: var(--bg);
+      transform: rotate(45deg);
+      transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+
+    .ribbon-link::after {
+      content: attr(aria-label);
+      position: absolute;
+      left: 27px;
+      padding: 7px 10px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: rgba(20, 23, 28, 0.94);
+      color: var(--text);
+      font-size: 0.78rem;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-5px);
+      transition: opacity 180ms ease, transform 180ms ease;
+    }
+
+    .ribbon-link:hover,
+    .ribbon-link:focus-visible {
+      color: var(--accent);
+    }
+
+    .ribbon-link:hover::before,
+    .ribbon-link:focus-visible::before,
+    .ribbon-link.active::before {
+      background: var(--accent);
+      border-color: var(--accent);
+      box-shadow: 0 0 18px rgba(227, 232, 238, 0.5);
+      transform: rotate(45deg) scale(1.2);
+    }
+
+    .ribbon-link:hover::after,
+    .ribbon-link:focus-visible::after {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .shell {
-      width: min(1040px, 100%);
+      width: min(1180px, 100%);
+      margin: 0 auto;
     }
 
     .content {
-      max-width: 1040px;
       display: grid;
-      gap: 28px;
+      gap: 24px;
+    }
+
+    .intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 22px;
     }
 
     .eyebrow {
@@ -73,18 +162,18 @@
     }
 
     h1 {
-      margin: 22px 0 14px;
-      font-size: clamp(2.5rem, 7vw, 5.5rem);
+      margin: 18px 0 14px;
+      font-size: clamp(2.7rem, 7.2vw, 6rem);
       line-height: 0.95;
       letter-spacing: -0.05em;
-      max-width: 10ch;
+      max-width: 11ch;
     }
 
-    p {
+    .lead {
       margin: 0;
-      max-width: 60ch;
+      max-width: 66ch;
       color: var(--muted);
-      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-size: clamp(1rem, 2vw, 1.12rem);
       line-height: 1.75;
     }
 
@@ -92,7 +181,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 14px;
-      margin-top: 30px;
+      margin-top: 4px;
     }
 
     .button {
@@ -123,34 +212,334 @@
       background: var(--surface);
     }
 
-    .grid {
+    .quick-facts {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 18px;
-      padding-top: 4px;
+      gap: 16px;
     }
 
-    .panel {
-      padding: 0;
-      border-top: 1px solid var(--border);
-      background: transparent;
+    .fact {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.055);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+      padding: 18px;
+      min-height: 132px;
     }
 
-    .panel strong {
+    .fact strong {
       display: block;
-      margin: 16px 0 8px;
+      margin-bottom: 10px;
       font-size: 0.98rem;
       letter-spacing: 0.02em;
     }
 
-    .panel small {
+    .fact small {
       color: var(--muted);
       line-height: 1.6;
       font-size: 0.95rem;
     }
 
-    footer {
+    .panel-block {
+      border-top: 1px solid var(--border);
+      background: transparent;
+    }
+
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      padding: 22px 0 16px;
+      background: transparent;
+    }
+
+    .panel-head strong {
+      font-size: 0.98rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .panel-head span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 18px;
+    }
+
+    .chart-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+      padding: 18px;
+    }
+
+    .chart-title,
+    .table-title,
+    .skills-title,
+    .contact-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .chart-title strong,
+    .table-title strong,
+    .skills-title strong,
+    .contact-title strong {
+      font-size: 1rem;
+    }
+
+    .chart-title small,
+    .skills-title small,
+    .contact-title small {
+      color: var(--muted);
+    }
+
+    .chart-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
       margin-top: 18px;
+    }
+
+    .control-group {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+    }
+
+    .control-button {
+      min-height: 34px;
+      padding: 0 11px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.86rem;
+      transition: color 180ms ease, background 180ms ease;
+    }
+
+    .control-button:hover,
+    .control-button.active {
+      background: var(--surface-strong);
+      color: var(--text);
+    }
+
+    .play-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface-strong);
+      color: var(--text);
+      cursor: pointer;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .play-button:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .chart-frame {
+      position: relative;
+    }
+
+    .status {
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    .line-chart {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 18px;
+      overflow: visible;
+    }
+
+    .line-chart .grid-line {
+      stroke: rgba(255, 255, 255, 0.1);
+      stroke-width: 1;
+    }
+
+    .line-chart .axis-label {
+      fill: var(--muted);
+      font-size: 11px;
+    }
+
+    .line-chart .series-line {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      opacity: 0.9;
+      transition: opacity 180ms ease, stroke-width 180ms ease;
+    }
+
+    .line-chart.is-animated .series-line {
+      stroke-dasharray: 1800;
+      stroke-dashoffset: 1800;
+      animation: draw-series 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      animation-delay: var(--series-delay);
+    }
+
+    .line-chart .series-line.is-highlighted {
+      opacity: 1;
+      stroke-width: 4;
+    }
+
+    .line-chart .series-line.is-muted {
+      opacity: 0.18;
+    }
+
+    .chart-crosshair {
+      stroke: rgba(255, 255, 255, 0.6);
+      stroke-width: 1.5;
+      stroke-dasharray: 4 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 120ms ease;
+    }
+
+    .chart-point {
+      stroke: var(--bg-alt);
+      stroke-width: 2;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .chart-tooltip {
+      position: absolute;
+      z-index: 2;
+      min-width: 176px;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: rgba(20, 23, 28, 0.96);
+      box-shadow: var(--shadow);
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(5px);
+      transition: opacity 120ms ease, transform 120ms ease;
+    }
+
+    .chart-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tooltip-year {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .tooltip-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .tooltip-row strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    @keyframes draw-series {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .chart-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 16px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .skills-contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+
+    .skill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 0.94rem;
+    }
+
+    .contact-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-card a {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .contact-card a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      margin-top: 8px;
       color: var(--muted);
       font-size: 0.95rem;
       text-align: center;
@@ -161,45 +550,509 @@
         padding: 18px;
       }
 
-      .grid {
+      .page-ribbon {
+        top: 12px;
+        bottom: auto;
+        right: 18px;
+        left: 18px;
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        transform: none;
+      }
+
+      .page-ribbon::before {
+        top: 14px;
+        right: 10px;
+        bottom: auto;
+        left: auto;
+        width: 90px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(227, 232, 238, 0.7));
+      }
+
+      .ribbon-link::after {
+        top: 34px;
+        right: 0;
+        left: auto;
+        transform: translateY(-5px);
+      }
+
+      .ribbon-link:hover::after,
+      .ribbon-link:focus-visible::after {
+        transform: translateY(0);
+      }
+
+      .intro,
+      .dashboard,
+      .skills-contact,
+      .quick-facts {
+        grid-template-columns: 1fr;
+      }
+
+      .panel-head,
+      .chart-title,
+      .skills-title,
+      .contact-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .chart-controls {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .control-group {
+        justify-content: space-between;
+      }
+    }
+
+    @media (min-width: 761px) and (max-width: 1040px) {
+      .intro {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
 <body>
+  <nav class="page-ribbon" aria-label="Navegación de la página">
+    <a class="ribbon-link active" href="#perfil" aria-label="Perfil"></a>
+    <a class="ribbon-link" href="#proyecto" aria-label="Proyecto"></a>
+    <a class="ribbon-link" href="#contacto" aria-label="Contacto"></a>
+  </nav>
+
   <main class="shell">
     <div class="content">
       <div class="eyebrow"><span></span> GitHub Pages en construcción</div>
-      <div>
-        <h1>DavZK</h1>
-        <p>
-          Este espacio será la página principal de mi sitio en GitHub Pages.
-          Aquí habrá proyectos, enlaces y contenido personal presentado de forma clara y directa.
-        </p>
-      </div>
+      <section id="perfil" class="intro">
+        <div class="hero-copy">
+          <div>
+            <h1>Dashboarding & Automation</h1>
+            <p class="lead">
+              Portafolio técnico enfocado en dashboarding empresarial con inspiración en visualización editorial,
+              ETLs, automatización y sistemas de análisis pensados para negocio. El ejemplo principal comparará el PIB
+              de los países más relevantes de Latinoamérica usando la API gratuita del Banco Mundial.
+            </p>
+          </div>
 
-      <div class="actions">
-        <a class="button primary" href="https://github.com/DavZK" target="_blank" rel="noreferrer">Ver GitHub</a>
-        <a class="button secondary" href="mailto:contacto@davzk.io">Contacto</a>
-      </div>
+          <div class="actions">
+            <a class="button primary" href="mailto:davo.zupernova@gmail.com">Contactar</a>
+            <a class="button secondary" href="https://github.com/DavZK" target="_blank" rel="noreferrer">Ver GitHub</a>
+          </div>
+        </div>
 
-      <div class="grid">
-        <article class="panel">
-          <strong>Proyectos</strong>
-          <small>Un lugar para destacar repositorios, demos y trabajo en curso.</small>
+        <aside class="panel-block">
+          <div class="panel-head">
+            <strong>Perfil</strong>
+            <span>David Socha</span>
+          </div>
+          <div style="padding: 18px 20px; display: grid; gap: 14px;">
+            <p class="lead" style="max-width: none; font-size: 1rem;">
+              Desarrollo piezas visuales y flujos de datos para convertir información operativa en decisiones claras.
+              En este portafolio, el caso principal será un dashboard de ejemplo con datos públicos del Banco Mundial.
+            </p>
+            <div class="quick-facts">
+              <article class="fact">
+                <strong>Foco</strong>
+                <small>Dashboards, ETL, automatización y visualización de métricas de negocio.</small>
+              </article>
+              <article class="fact">
+                <strong>Stack</strong>
+                <small>HTML, CSS, JavaScript, Python, SQL, APIs y pipelines de datos.</small>
+              </article>
+              <article class="fact">
+                <strong>Formato</strong>
+                <small>Portafolio limpio, técnico y orientado a empleador o reclutador.</small>
+              </article>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <section id="proyecto" class="panel-block">
+        <div class="panel-head">
+          <strong>Proyecto principal</strong>
+          <span>PIB LATAM 2006-2025</span>
+        </div>
+        <div class="dashboard">
+          <article class="chart-card">
+            <div class="chart-title">
+              <strong>Comparativa de PIB</strong>
+              <small>México, Brasil, Argentina, Colombia, Chile y Perú</small>
+            </div>
+            <p class="lead" style="max-width: none; font-size: 0.98rem;">
+              Un dashboard complejo, con tablas, gráficas y animaciones, diseñado para presentar la evolución del PIB
+              de los últimos 20 años a partir de indicadores abiertos de la API del Banco Mundial.
+            </p>
+            <div class="chart-controls" aria-label="Controles de la gráfica">
+              <button id="play-chart" class="play-button" type="button" aria-pressed="false">▶ Reproducir</button>
+              <div class="control-group" role="group" aria-label="Métrica">
+                <button class="control-button active" type="button" data-metric="absolute">PIB total</button>
+                <button class="control-button" type="button" data-metric="normalized">Base 2006 = 100</button>
+              </div>
+              <div class="control-group" role="group" aria-label="Escala vertical">
+                <button class="control-button active" type="button" data-scale="linear">Lineal</button>
+                <button class="control-button" type="button" data-scale="log">Logarítmica</button>
+              </div>
+            </div>
+            <div id="gdp-status" class="status">Cargando datos del Banco Mundial...</div>
+            <div id="gdp-chart"></div>
+          </article>
+        </div>
+      </section>
+
+      <section id="contacto" class="skills-contact">
+        <article class="panel-block">
+          <div class="panel-head">
+            <strong>Herramientas</strong>
+            <span>Stack principal</span>
+          </div>
+          <div style="padding: 18px 20px;">
+            <div class="skill-list">
+              <span class="chip">HTML/CSS/JS</span>
+              <span class="chip">Python</span>
+              <span class="chip">SQL</span>
+              <span class="chip">ETL</span>
+              <span class="chip">Automatización</span>
+              <span class="chip">APIs</span>
+              <span class="chip">World Bank Open Data</span>
+            </div>
+          </div>
         </article>
-        <article class="panel">
-          <strong>Bio</strong>
-          <small>Una introducción breve con enfoque profesional y sencillo.</small>
+
+        <article class="panel-block">
+          <div class="panel-head">
+            <strong>Contacto</strong>
+            <span>Solo correo por ahora</span>
+          </div>
+          <div style="padding: 18px 20px;">
+            <div class="contact-card">
+              <span class="lead" style="max-width: none; font-size: 1rem;">
+                Para oportunidades, colaboraciones o revisión de portafolio, escríbeme directamente.
+              </span>
+              <a href="mailto:davo.zupernova@gmail.com">davo.zupernova@gmail.com</a>
+            </div>
+          </div>
         </article>
-        <article class="panel">
-          <strong>Contacto</strong>
-          <small>Enlaces rápidos para redes, correo y otras formas de conexión.</small>
-        </article>
-      </div>
+      </section>
     </div>
-    <footer>Preparado para publicar en GitHub Pages.</footer>
+    <footer>Ejemplo de dashboard comparando PIB de Latinoamérica con datos públicos del Banco Mundial.</footer>
   </main>
+
+  <script>
+    const countries = [
+      { code: 'MEX', name: 'México' },
+      { code: 'BRA', name: 'Brasil' },
+      { code: 'ARG', name: 'Argentina' },
+      { code: 'COL', name: 'Colombia' },
+      { code: 'CHL', name: 'Chile' },
+      { code: 'PER', name: 'Perú' },
+    ];
+
+    const years = Array.from({ length: 20 }, (_, index) => 2006 + index);
+    const formatUsd = new Intl.NumberFormat('es-ES', {
+      notation: 'compact',
+      compactDisplay: 'short',
+      maximumFractionDigits: 1,
+    });
+
+    const gdpChart = document.getElementById('gdp-chart');
+    const gdpStatus = document.getElementById('gdp-status');
+
+    function formatBillions(value) {
+      return `${formatUsd.format(value / 1e9)} US$`;
+    }
+
+    function createLineChart(series, metric, scale) {
+      const width = 960;
+      const height = 430;
+      const left = 72;
+      const right = 24;
+      const top = 24;
+      const bottom = 54;
+      const chartWidth = width - left - right;
+      const chartHeight = height - top - bottom;
+      const chartSeries = series.map((country) => {
+        const baseValue = country.values.find(Number.isFinite);
+        const values = metric === 'normalized'
+          ? country.values.map((value) => Number.isFinite(value) && baseValue ? (value / baseValue) * 100 : NaN)
+          : country.values;
+        return { ...country, chartValues: values };
+      });
+      const validValues = chartSeries.flatMap((country) => country.chartValues).filter((value) => Number.isFinite(value) && value > 0);
+      const maxValue = Math.max(...validValues);
+      const minValue = scale === 'log' ? Math.min(...validValues) : 0;
+      const minLog = Math.log10(Math.max(minValue, 1));
+      const maxLog = Math.log10(maxValue);
+      const yTicks = 5;
+      const xStep = chartWidth / Math.max(years.length - 1, 1);
+      const colors = ['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'];
+
+      const xPosition = (index) => left + index * xStep;
+      const yPosition = (value) => {
+        if (!Number.isFinite(value) || value <= 0) {
+          return top + chartHeight;
+        }
+
+        const normalized = scale === 'log'
+          ? (Math.log10(value) - minLog) / Math.max(maxLog - minLog, 1)
+          : (value - minValue) / Math.max(maxValue - minValue, 1);
+        return top + chartHeight - normalized * chartHeight;
+      };
+      const formatAxisValue = (value) => metric === 'normalized' ? `${Math.round(value)}` : formatBillions(value);
+      const gridLines = Array.from({ length: yTicks + 1 }, (_, index) => {
+        const fraction = index / yTicks;
+        const value = scale === 'log'
+          ? 10 ** (minLog + (maxLog - minLog) * fraction)
+          : minValue + (maxValue - minValue) * fraction;
+        const y = yPosition(value);
+        return `<line class="grid-line" x1="${left}" y1="${y}" x2="${width - right}" y2="${y}"></line><text class="axis-label" x="${left - 10}" y="${y + 4}" text-anchor="end">${formatAxisValue(value)}</text>`;
+      }).join('');
+      const xLabels = years.filter((year, index) => index % 3 === 0 || index === years.length - 1).map((year) => {
+        const x = xPosition(years.indexOf(year));
+        return `<text class="axis-label" x="${x}" y="${height - 20}" text-anchor="middle">${year}</text>`;
+      }).join('');
+      const lines = chartSeries.map((country, countryIndex) => {
+        const points = country.chartValues.map((value, index) => {
+          const x = xPosition(index);
+          const y = yPosition(value);
+          return `${index === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
+        }).join(' ');
+        const delay = `${countryIndex * 90}ms`;
+        const pointsMarkup = country.chartValues.map((value, index) => {
+          if (!Number.isFinite(value)) {
+            return '';
+          }
+
+          return `<circle class="chart-point" data-country="${countryIndex}" data-index="${index}" cx="${xPosition(index)}" cy="${yPosition(value)}" r="5" fill="${colors[countryIndex % colors.length]}"></circle>`;
+        }).join('');
+        return `<path class="series-line" data-country="${countryIndex}" d="${points}" stroke="${colors[countryIndex % colors.length]}" style="--series-delay:${delay}"><title>${country.name}</title></path>${pointsMarkup}`;
+      }).join('');
+      const legend = chartSeries.map((country, countryIndex) => `<span class="legend-item"><i class="legend-dot" style="background:${colors[countryIndex % colors.length]}"></i>${country.name}</span>`).join('');
+
+      return `
+        <div class="chart-frame">
+          <svg class="line-chart is-animated" viewBox="0 0 ${width} ${height}" role="img" aria-label="Comparativa interactiva del PIB entre ${years[0]} y ${years[years.length - 1]}">
+          ${gridLines}
+          ${xLabels}
+          <line class="chart-crosshair" data-crosshair x1="${left}" y1="${top}" x2="${left}" y2="${top + chartHeight}"></line>
+          ${lines}
+            <rect data-overlay x="${left}" y="${top}" width="${chartWidth}" height="${chartHeight}" fill="transparent"></rect>
+          </svg>
+          <div class="chart-tooltip" data-tooltip></div>
+        </div>
+        <div class="chart-legend">${legend}</div>
+      `;
+    }
+
+    function setupChartInteraction(series, metric, scale) {
+      const frame = gdpChart.querySelector('.chart-frame');
+      const svg = gdpChart.querySelector('.line-chart');
+      const overlay = gdpChart.querySelector('[data-overlay]');
+      const crosshair = gdpChart.querySelector('[data-crosshair]');
+      const tooltip = gdpChart.querySelector('[data-tooltip]');
+      const paths = [...gdpChart.querySelectorAll('.series-line')];
+      const points = [...gdpChart.querySelectorAll('.chart-point')];
+      const chartWidth = 864;
+      const left = 72;
+      let activeIndex = null;
+
+      const chartSeries = series.map((country) => {
+        const baseValue = country.values.find(Number.isFinite);
+        return {
+          ...country,
+          chartValues: metric === 'normalized'
+            ? country.values.map((value) => Number.isFinite(value) && baseValue ? (value / baseValue) * 100 : NaN)
+            : country.values,
+        };
+      });
+
+      function showYear(index, keepVisible = true) {
+        activeIndex = Math.max(0, Math.min(years.length - 1, index));
+        const x = left + (chartWidth / (years.length - 1)) * activeIndex;
+        crosshair.setAttribute('x1', x);
+        crosshair.setAttribute('x2', x);
+        crosshair.style.opacity = '1';
+
+        paths.forEach((path, countryIndex) => {
+          path.classList.remove('is-highlighted');
+          path.classList.remove('is-muted');
+        });
+
+        points.forEach((point) => {
+          const isActive = Number(point.dataset.index) === activeIndex;
+          point.style.opacity = isActive ? '1' : '0';
+        });
+
+        const rows = chartSeries.map((country, countryIndex) => {
+          const value = country.chartValues[activeIndex];
+          const display = metric === 'normalized'
+            ? `${Number.isFinite(value) ? value.toFixed(1) : 'N/D'}`
+            : Number.isFinite(value) ? formatBillions(value) : 'N/D';
+          return `<div class="tooltip-row"><span style="color:${['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'][countryIndex]}">${country.name}</span><strong>${display}</strong></div>`;
+        }).join('');
+        tooltip.innerHTML = `<span class="tooltip-year">${years[activeIndex]}</span>${rows}`;
+        const frameWidth = frame.clientWidth;
+        const xPercent = (x / 960) * 100;
+        tooltip.style.left = `${Math.min(Math.max(xPercent, 13), 78)}%`;
+        tooltip.classList.toggle('visible', keepVisible);
+      }
+
+      overlay.addEventListener('pointermove', (event) => {
+        const bounds = svg.getBoundingClientRect();
+        const svgX = ((event.clientX - bounds.left) / bounds.width) * 960;
+        const index = Math.round((svgX - left) / (chartWidth / (years.length - 1)));
+        showYear(index);
+      });
+
+      overlay.addEventListener('pointerleave', () => {
+        if (!playState.isPlaying) {
+          crosshair.style.opacity = '0';
+          tooltip.classList.remove('visible');
+          points.forEach((point) => { point.style.opacity = '0'; });
+        }
+      });
+
+      return {
+        showYear,
+        getActiveIndex: () => activeIndex,
+      };
+    }
+
+    const playState = { isPlaying: false, timer: null };
+    let activeInteraction = null;
+    let activeSeries = [];
+    let activeMetric = 'absolute';
+    let activeScale = 'linear';
+
+    function renderChart() {
+      gdpChart.innerHTML = createLineChart(activeSeries, activeMetric, activeScale);
+      activeInteraction = setupChartInteraction(activeSeries, activeMetric, activeScale);
+      if (playState.isPlaying) {
+        startPlayback();
+      }
+    }
+
+    function stopPlayback() {
+      window.clearInterval(playState.timer);
+      playState.timer = null;
+      playState.isPlaying = false;
+      const button = document.getElementById('play-chart');
+      button.textContent = '▶ Reproducir';
+      button.setAttribute('aria-pressed', 'false');
+    }
+
+    function startPlayback() {
+      if (!activeInteraction) {
+        return;
+      }
+
+      stopPlayback();
+      playState.isPlaying = true;
+      const button = document.getElementById('play-chart');
+      button.textContent = '❚❚ Pausar';
+      button.setAttribute('aria-pressed', 'true');
+      let index = activeInteraction.getActiveIndex() ?? 0;
+      activeInteraction.showYear(index);
+      playState.timer = window.setInterval(() => {
+        index = index >= years.length - 1 ? 0 : index + 1;
+        activeInteraction.showYear(index);
+      }, 700);
+    }
+
+    async function loadGdpComparison() {
+      try {
+        const codes = countries.map((country) => country.code).join(';');
+        const endpoint = `https://api.worldbank.org/v2/country/${codes}/indicator/NY.GDP.MKTP.CD?format=json&per_page=2000`;
+        const response = await fetch(endpoint);
+
+        if (!response.ok) {
+          throw new Error(`Error HTTP ${response.status}`);
+        }
+
+        const payload = await response.json();
+        const records = Array.isArray(payload) ? payload[1] : [];
+        const countryMap = new Map(countries.map((country) => [country.code, { ...country, values: new Map() }]));
+
+        records.forEach((record) => {
+          const country = countryMap.get(record.countryiso3code);
+          const year = Number(record.date);
+          if (!country || !years.includes(year) || record.value == null) {
+            return;
+          }
+
+          country.values.set(year, Number(record.value));
+        });
+
+        activeSeries = countries
+          .map((country) => {
+            const item = countryMap.get(country.code);
+            const values = years.map((year) => item?.values.get(year) ?? NaN);
+            return { ...country, values };
+          })
+          .filter((country) => country.values.some(Number.isFinite))
+          .sort((left, right) => right.values[right.values.length - 1] - left.values[left.values.length - 1]);
+
+        renderChart();
+        gdpStatus.textContent = `Datos cargados: ${years[0]}-${years[years.length - 1]} para ${activeSeries.length} países de Latinoamérica.`;
+      } catch (error) {
+        gdpStatus.textContent = 'No fue posible cargar los datos del Banco Mundial en este momento.';
+        gdpChart.innerHTML = '';
+        console.error(error);
+      }
+    }
+
+    document.getElementById('play-chart').addEventListener('click', () => {
+      if (playState.isPlaying) {
+        stopPlayback();
+      } else {
+        startPlayback();
+      }
+    });
+
+    document.querySelectorAll('[data-metric]').forEach((button) => {
+      button.addEventListener('click', () => {
+        activeMetric = button.dataset.metric;
+        document.querySelectorAll('[data-metric]').forEach((item) => item.classList.toggle('active', item === button));
+        if (activeSeries.length) {
+          renderChart();
+        }
+      });
+    });
+
+    document.querySelectorAll('[data-scale]').forEach((button) => {
+      button.addEventListener('click', () => {
+        activeScale = button.dataset.scale;
+        document.querySelectorAll('[data-scale]').forEach((item) => item.classList.toggle('active', item === button));
+        if (activeSeries.length) {
+          renderChart();
+        }
+      });
+    });
+
+    const ribbonLinks = [...document.querySelectorAll('.ribbon-link')];
+    const ribbonSections = ribbonLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      const visibleSection = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+
+      if (!visibleSection) {
+        return;
+      }
+
+      ribbonLinks.forEach((link) => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${visibleSection.target.id}`);
+      });
+    }, { rootMargin: '-25% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] });
+
+    ribbonSections.forEach((section) => sectionObserver.observe(section));
+
+    loadGdpComparison();
+  </script>
 </body>
 </html>
