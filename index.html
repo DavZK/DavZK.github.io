@@ -279,6 +279,84 @@
       padding: 18px;
     }
 
+    .story-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
+      gap: 24px;
+      align-items: end;
+      margin: 4px 0 28px;
+    }
+
+    .story-kicker {
+      margin: 0 0 10px;
+      color: #f0c674;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .story-intro h2 {
+      max-width: 18ch;
+      margin: 0;
+      font-size: clamp(1.8rem, 4vw, 3.4rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+    }
+
+    .story-note {
+      margin: 0;
+      padding-left: 18px;
+      border-left: 2px solid rgba(240, 198, 116, 0.65);
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.7;
+    }
+
+    .story-stats {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 0 0 24px;
+    }
+
+    .story-stat {
+      min-height: 102px;
+      padding: 14px 15px;
+      border-top: 2px solid var(--stat-color, var(--accent-2));
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .story-stat strong {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 1.15rem;
+    }
+
+    .story-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+
+    .chart-reading {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: baseline;
+      margin: 20px 0 0;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .chart-reading strong {
+      color: var(--text);
+    }
+
     .chart-title,
     .table-title,
     .skills-title,
@@ -629,9 +707,14 @@
       }
 
       .intro,
+      .story-intro,
       .dashboard,
       .skills-contact,
       .quick-facts {
+        grid-template-columns: 1fr;
+      }
+
+      .story-stats {
         grid-template-columns: 1fr;
       }
 
@@ -650,6 +733,11 @@
 
       .control-group {
         justify-content: space-between;
+      }
+
+      .chart-reading {
+        align-items: flex-start;
+        flex-direction: column;
       }
     }
 
@@ -722,13 +810,24 @@
         </div>
         <div class="dashboard">
           <article class="chart-card">
+            <div class="story-intro">
+              <div>
+                <p class="story-kicker">Una lectura en dos escalas</p>
+                <h2>El tamaño cuenta una historia. El cambio cuenta otra.</h2>
+              </div>
+              <p class="story-note">
+                El PIB absoluto revela el peso de cada economía. La vista base 2006 ayuda a descubrir qué países
+                transformaron con mayor intensidad su escala inicial.
+              </p>
+            </div>
+            <div id="story-stats" class="story-stats" aria-live="polite"></div>
             <div class="chart-title">
               <strong>Comparativa de PIB</strong>
-              <small>México, Brasil, Argentina, Colombia, Chile y Perú</small>
+              <small>2006 - 2025 · dólares corrientes</small>
             </div>
             <p class="lead" style="max-width: none; font-size: 0.98rem;">
-              Un dashboard complejo, con tablas, gráficas y animaciones, diseñado para presentar la evolución del PIB
-              de los últimos 20 años a partir de indicadores abiertos de la API del Banco Mundial.
+              Sigue el recorrido de cada economía. Reproduce el tiempo para ver cómo se construye la distancia entre
+              las líneas o detén la escena y explórala país por país.
             </p>
             <div class="chart-controls" aria-label="Controles de la gráfica">
               <button id="play-chart" class="play-button" type="button" aria-pressed="false">▶ Reproducir</button>
@@ -744,6 +843,7 @@
             <div id="country-filter" class="country-filter" aria-label="Países a graficar"></div>
             <div id="gdp-status" class="status">Cargando datos del Banco Mundial...</div>
             <div id="gdp-chart"></div>
+            <p id="chart-reading" class="chart-reading"><span><strong>Cómo leerla:</strong> la altura muestra escala económica y el recorrido muestra cambio.</span><span>Fuente: Banco Mundial</span></p>
           </article>
         </div>
       </section>
@@ -806,11 +906,58 @@
     const gdpChart = document.getElementById('gdp-chart');
     const gdpStatus = document.getElementById('gdp-status');
     const countryFilter = document.getElementById('country-filter');
+    const storyStats = document.getElementById('story-stats');
+    const chartReading = document.getElementById('chart-reading');
     const selectedCountryCodes = new Set(countries.map((country) => country.code));
     const countryColors = ['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'];
 
     function formatBillions(value) {
       return `${formatUsd.format(value / 1e9)} US$`;
+    }
+
+    function getFirstFinite(values) {
+      return values.find(Number.isFinite);
+    }
+
+    function getLastFinite(values) {
+      return [...values].reverse().find(Number.isFinite);
+    }
+
+    function renderStoryStats(series) {
+      if (!series.length) {
+        storyStats.innerHTML = '';
+        return;
+      }
+
+      const largest = [...series].sort((left, right) => getLastFinite(right.values) - getLastFinite(left.values))[0];
+      const fastest = [...series].sort((left, right) => {
+        const leftGrowth = getLastFinite(left.values) / getFirstFinite(left.values);
+        const rightGrowth = getLastFinite(right.values) / getFirstFinite(right.values);
+        return rightGrowth - leftGrowth;
+      })[0];
+      const latestYear = years[years.length - 1];
+      const firstYear = years[0];
+      const fastestGrowth = ((getLastFinite(fastest.values) / getFirstFinite(fastest.values)) - 1) * 100;
+      const metricLabel = activeMetric === 'normalized' ? 'comparación base 2006 = 100' : 'PIB corriente';
+
+      storyStats.innerHTML = `
+        <article class="story-stat" style="--stat-color:${countryColors[countries.findIndex((item) => item.code === largest.code)]}">
+          <strong>${largest.name}</strong>
+          <span>mayor escala en ${latestYear}: ${formatBillions(getLastFinite(largest.values))}</span>
+        </article>
+        <article class="story-stat" style="--stat-color:${countryColors[countries.findIndex((item) => item.code === fastest.code)]}">
+          <strong>${fastest.name}</strong>
+          <span>mayor expansión entre ${firstYear} y ${latestYear}: +${fastestGrowth.toFixed(0)}%</span>
+        </article>
+        <article class="story-stat" style="--stat-color:#97a3b3">
+          <strong>${series.length} de ${countries.length}</strong>
+          <span>países activos · ${metricLabel}</span>
+        </article>
+      `;
+
+      chartReading.innerHTML = activeMetric === 'normalized'
+        ? '<span><strong>Lectura activa:</strong> cada país parte de 100; observa quién se aleja más de su punto de partida.</span><span>Fuente: Banco Mundial</span>'
+        : '<span><strong>Lectura activa:</strong> la altura muestra escala económica; observa quién domina el paisaje.</span><span>Fuente: Banco Mundial</span>';
     }
 
     function createLineChart(series, metric, scale) {
@@ -1019,6 +1166,7 @@
 
     function renderChart() {
       const visibleSeries = activeSeries.filter((country) => selectedCountryCodes.has(country.code));
+      renderStoryStats(visibleSeries);
       gdpChart.innerHTML = createLineChart(visibleSeries, activeMetric, activeScale);
       activeInteraction = setupChartInteraction(visibleSeries, activeMetric, activeScale);
       if (playState.isPlaying) {
