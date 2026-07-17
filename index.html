@@ -398,6 +398,188 @@
       line-height: 1.7;
     }
 
+    .section-intro {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(280px, 1.2fr);
+      gap: 34px;
+      align-items: end;
+      margin: 12px 0 28px;
+    }
+
+    .section-intro h2 {
+      max-width: 14ch;
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.8rem, 3.8vw, 3.2rem);
+      font-weight: 400;
+      line-height: 1.02;
+    }
+
+    .section-intro p {
+      max-width: 58ch;
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .specialties-grid,
+    .future-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .specialty,
+    .future-item {
+      min-height: 146px;
+      padding: 18px 16px 20px;
+      background: var(--bg);
+    }
+
+    .specialty-number {
+      display: block;
+      margin-bottom: 24px;
+      color: var(--accent);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+    }
+
+    .specialty h3,
+    .future-item h3 {
+      margin: 0 0 8px;
+      font-size: 1rem;
+    }
+
+    .specialty p,
+    .future-item p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .process-line {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 0;
+      margin: 28px 0 18px;
+      border-top: 1px solid var(--border);
+    }
+
+    .process-step {
+      position: relative;
+      min-height: 108px;
+      padding: 18px 14px 0 0;
+      border-right: 1px solid var(--border);
+    }
+
+    .process-step:not(:first-child) {
+      padding-left: 14px;
+    }
+
+    .process-step::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .process-step strong {
+      display: block;
+      margin-bottom: 7px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+    }
+
+    .process-step span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.4;
+    }
+
+    .capability-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .capability-list span {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    .capability-list span::before {
+      content: "✓";
+      margin-right: 7px;
+      color: var(--accent);
+    }
+
+    .tech-groups {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 22px;
+    }
+
+    .tech-group {
+      border-top: 1px solid var(--border);
+      padding-top: 14px;
+    }
+
+    .tech-group strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .tech-group span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+    }
+
+    .future-item {
+      min-height: 124px;
+    }
+
+    .future-item span {
+      display: inline-block;
+      margin-bottom: 20px;
+      color: var(--accent-2);
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .contact-lead {
+      max-width: 48ch;
+      margin: 0 0 18px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      line-height: 1.08;
+    }
+
+    .contact-scope {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin: 0 0 20px;
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
     .story-intro {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
@@ -794,7 +976,7 @@
         left: 18px;
         display: flex;
         justify-content: flex-end;
-        gap: 12px;
+        gap: 8px;
         transform: none;
       }
 
@@ -824,10 +1006,21 @@
       .story-intro,
       .story-track,
       .reflection,
+      .section-intro,
       .dashboard,
       .skills-contact,
       .quick-facts {
         grid-template-columns: 1fr;
+      }
+
+      .specialties-grid,
+      .future-grid,
+      .tech-groups {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .process-line {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
 
       .story-scene {
@@ -864,8 +1057,18 @@
     }
 
     @media (min-width: 761px) and (max-width: 1040px) {
-      .intro {
+      .intro,
+      .section-intro {
         grid-template-columns: 1fr;
+      }
+
+      .specialties-grid,
+      .future-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .tech-groups {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
       }
     }
   </style>
@@ -873,21 +1076,24 @@
 <body>
   <nav class="page-ribbon" aria-label="Navegación de la página">
     <a class="ribbon-link active" href="#perfil" aria-label="Perfil"></a>
-    <a class="ribbon-link" href="#proyecto" aria-label="Proyecto"></a>
+    <a class="ribbon-link" href="#especialidades" aria-label="Especialidades"></a>
+    <a class="ribbon-link" href="#proceso" aria-label="Proceso"></a>
+    <a class="ribbon-link" href="#caso" aria-label="Caso de estudio"></a>
+    <a class="ribbon-link" href="#exploraciones" aria-label="Exploraciones"></a>
     <a class="ribbon-link" href="#contacto" aria-label="Contacto"></a>
   </nav>
 
   <main class="shell">
     <div class="content">
-      <div class="eyebrow"><span></span> Estudio de caso · Banco Mundial</div>
+      <div class="eyebrow"><span></span> Portafolio · Data Experiences</div>
       <section id="perfil" class="intro">
         <div class="hero-copy">
           <div>
-            <h1>Datos que se vuelven decisiones</h1>
+            <h1>Software Developer especializado en Dashboarding y Automatización</h1>
             <p class="lead">
-              Diseño experiencias de información para que los datos no solo se consulten: se entiendan. Esta pieza
-              observa la economía latinoamericana desde dos preguntas distintas, usando el PIB público del Banco Mundial
-              como materia prima para una historia visual.
+              Diseño soluciones donde los datos se transforman en herramientas para comprender, decidir y actuar.
+              Construyo dashboards, ETLs y automatizaciones que convierten operaciones complejas en experiencias de
+              análisis claras, confiables y útiles para el negocio.
             </p>
           </div>
 
@@ -904,14 +1110,14 @@
           </div>
           <div style="padding: 18px 20px; display: grid; gap: 14px;">
             <p class="lead" style="max-width: none; font-size: 1rem;">
-              Desarrollo piezas visuales y flujos de datos para convertir información operativa en decisiones claras.
-              En este portafolio, cada caso convierte una fuente pública en una experiencia de lectura con contexto,
-              contraste y una pregunta que merece ser explorada.
+              Trabajo en la intersección entre ingeniería de datos, desarrollo frontend y diseño de información.
+              Conecto fuentes, transformo procesos y construyo interfaces para que una organización pueda ver qué
+              ocurre, entender por qué importa y actuar con mayor precisión.
             </p>
             <div class="quick-facts">
               <article class="fact">
                 <strong>Foco</strong>
-                <small>Dashboards, ETL, automatización y visualización de métricas de negocio.</small>
+                <small>Dashboarding, ETLs, automatización y visualización de información operativa.</small>
               </article>
               <article class="fact">
                 <strong>Stack</strong>
@@ -919,29 +1125,75 @@
               </article>
               <article class="fact">
                 <strong>Formato</strong>
-                <small>Portafolio limpio, técnico y orientado a empleador o reclutador.</small>
+                <small>Soluciones pensadas para comprender, decidir y actuar.</small>
               </article>
             </div>
           </div>
         </aside>
       </section>
 
-      <section id="proyecto" class="panel-block">
+      <section id="especialidades" class="panel-block">
         <div class="panel-head">
-          <strong>Proyecto principal</strong>
-          <span>PIB LATAM 2006-2025</span>
+          <strong>Especialidades</strong>
+          <span>Problemas que resuelvo</span>
+        </div>
+        <div class="section-intro">
+          <h2>La información útil empieza mucho antes de la gráfica.</h2>
+          <p>Diseño sistemas que conectan el dato con la decisión: desde la extracción y transformación hasta la experiencia que permite interpretarlo.</p>
+        </div>
+        <div class="specialties-grid">
+          <article class="specialty"><span class="specialty-number">01</span><h3>Dashboard Development</h3><p>Interfaces de análisis que hacen visibles las métricas que importan.</p></article>
+          <article class="specialty"><span class="specialty-number">02</span><h3>ETL Pipelines</h3><p>Flujos reproducibles para limpiar, transformar y preparar datos confiables.</p></article>
+          <article class="specialty"><span class="specialty-number">03</span><h3>Automation</h3><p>Procesos que reducen trabajo manual y convierten operaciones repetitivas en sistemas.</p></article>
+          <article class="specialty"><span class="specialty-number">04</span><h3>Data Visualization</h3><p>Representaciones que priorizan contexto, comparación y comprensión.</p></article>
+          <article class="specialty"><span class="specialty-number">05</span><h3>REST APIs</h3><p>Integración de fuentes para llevar información viva a productos de análisis.</p></article>
+          <article class="specialty"><span class="specialty-number">06</span><h3>SQL Server</h3><p>Consultas y estructuras que convierten datos operativos en modelos útiles.</p></article>
+          <article class="specialty"><span class="specialty-number">07</span><h3>SVG Graphics</h3><p>Gráficas interactivas, accesibles y animadas con control sobre cada detalle.</p></article>
+          <article class="specialty"><span class="specialty-number">08</span><h3>Business Analytics</h3><p>Traducción de preguntas de negocio en indicadores y experiencias accionables.</p></article>
+        </div>
+      </section>
+
+      <section id="proceso" class="panel-block">
+        <div class="panel-head">
+          <strong>Mi proceso</strong>
+          <span>De la fuente a la decisión</span>
+        </div>
+        <div class="section-intro">
+          <h2>No empiezo por el gráfico.</h2>
+          <p>Empiezo por la pregunta. Cada capa tiene una función: reducir incertidumbre hasta que la información pueda convertirse en una acción.</p>
+        </div>
+        <div class="process-line" aria-label="Proceso de trabajo">
+          <div class="process-step"><strong>Datos</strong><span>Entender las fuentes y su calidad.</span></div>
+          <div class="process-step"><strong>Transformación</strong><span>Limpiar y automatizar el flujo.</span></div>
+          <div class="process-step"><strong>Modelado</strong><span>Dar estructura a la pregunta.</span></div>
+          <div class="process-step"><strong>Visualización</strong><span>Hacer visible la relación.</span></div>
+          <div class="process-step"><strong>Experiencia</strong><span>Diseñar cómo se descubre.</span></div>
+          <div class="process-step"><strong>Decisiones</strong><span>Dejar claro qué hacer después.</span></div>
+        </div>
+        <div class="capability-list" aria-label="Capacidades demostradas en el proceso">
+          <span>Consumo de APIs REST</span><span>Transformación de datos</span><span>ETLs</span><span>Arquitectura frontend</span><span>Rendimiento</span><span>Componentes reutilizables</span>
+        </div>
+      </section>
+
+      <section id="caso" class="panel-block">
+        <div class="panel-head">
+          <strong>Caso de estudio</strong>
+          <span>Demostración técnica</span>
         </div>
         <div class="dashboard">
           <article class="chart-card">
             <div class="story-intro">
               <div>
-                <p class="story-kicker">Una lectura en dos escalas</p>
-                <h2>El tamaño cuenta una historia. El cambio cuenta otra.</h2>
+                <p class="story-kicker">Cómo abordo un problema de visualización</p>
+                <h2>Una experiencia de análisis, construida desde datos abiertos.</h2>
               </div>
               <p class="story-note">
-                El PIB absoluto revela el peso de cada economía. La vista base 2006 ayuda a descubrir qué países
-                transformaron con mayor intensidad su escala inicial.
+                Este proyecto utiliza el PIB del Banco Mundial como caso de estudio. El tema es secundario: lo importante
+                es observar cómo conecto datos, narrativa, interacción y frontend en una experiencia coherente.
               </p>
+            </div>
+            <div class="capability-list" aria-label="Capacidades demostradas por el caso de estudio">
+              <span>APIs REST</span><span>JavaScript</span><span>SVG interactivo</span><span>Storytelling</span><span>Diseño UX</span><span>Visualización de información</span>
             </div>
             <div class="story-track">
               <div class="story-steps" aria-label="Capítulos de la historia">
@@ -999,42 +1251,59 @@
         </div>
       </section>
 
-      <section id="contacto" class="skills-contact">
-        <article class="panel-block">
-          <div class="panel-head">
-            <strong>Herramientas</strong>
-            <span>Stack principal</span>
-          </div>
-          <div style="padding: 18px 20px;">
-            <div class="skill-list">
-              <span class="chip">HTML/CSS/JS</span>
-              <span class="chip">Python</span>
-              <span class="chip">SQL</span>
-              <span class="chip">ETL</span>
-              <span class="chip">Automatización</span>
-              <span class="chip">APIs</span>
-              <span class="chip">World Bank Open Data</span>
-            </div>
-          </div>
-        </article>
+      <section id="tecnologias" class="panel-block">
+        <div class="panel-head">
+          <strong>Tecnologías</strong>
+          <span>La herramienta al servicio del problema</span>
+        </div>
+        <div class="section-intro">
+          <h2>Una base técnica para construir con criterio.</h2>
+          <p>La tecnología cambia según el contexto. Esta es la forma en la que organizo mi stack para convertir una necesidad de negocio en una solución mantenible.</p>
+        </div>
+        <div class="tech-groups">
+          <div class="tech-group"><strong>Frontend</strong><span>HTML, CSS, JavaScript y responsive design para experiencias claras.</span></div>
+          <div class="tech-group"><strong>Backend</strong><span>Python y automatización para conectar procesos y servicios.</span></div>
+          <div class="tech-group"><strong>Datos</strong><span>SQL, SQL Server y pipelines para transformar información operativa.</span></div>
+          <div class="tech-group"><strong>Visualización</strong><span>SVG, interacción, animación y diseño de información.</span></div>
+          <div class="tech-group"><strong>Integración</strong><span>APIs REST y fuentes externas convertidas en productos de análisis.</span></div>
+        </div>
+      </section>
 
-        <article class="panel-block">
+      <section id="exploraciones" class="panel-block">
+        <div class="panel-head">
+          <strong>Exploraciones</strong>
+          <span>Visual Essays en desarrollo</span>
+        </div>
+        <div class="section-intro">
+          <h2>Este caso es el comienzo de una colección.</h2>
+          <p>Exploraciones futuras para seguir investigando cómo una fuente compleja puede convertirse en una experiencia de lectura.</p>
+        </div>
+        <div class="future-grid">
+          <article class="future-item"><span>En desarrollo</span><h3>Indicadores climáticos</h3><p>Cómo hacer visible un cambio lento y acumulativo.</p></article>
+          <article class="future-item"><span>En desarrollo</span><h3>Movilidad urbana</h3><p>Ritmos, rutas y decisiones dentro de una ciudad.</p></article>
+          <article class="future-item"><span>En desarrollo</span><h3>Mercados energéticos</h3><p>Volatilidad y dependencia en sistemas conectados.</p></article>
+          <article class="future-item"><span>En desarrollo</span><h3>Datos demográficos</h3><p>Transformaciones sociales contadas en el tiempo.</p></article>
+          <article class="future-item"><span>En desarrollo</span><h3>Finanzas públicas</h3><p>Presupuesto, prioridades y rendición de cuentas.</p></article>
+        </div>
+      </section>
+
+      <section id="contacto" class="panel-block">
+        <article>
           <div class="panel-head">
             <strong>Contacto</strong>
             <span>Solo correo por ahora</span>
           </div>
           <div style="padding: 18px 20px;">
             <div class="contact-card">
-              <span class="lead" style="max-width: none; font-size: 1rem;">
-                Para oportunidades, colaboraciones o revisión de portafolio, escríbeme directamente.
-              </span>
+              <p class="contact-lead">Disponible para construir sistemas de análisis que conviertan información en decisiones.</p>
+              <p class="contact-scope"><span>Dashboard Development</span><span>Data Engineering</span><span>Automation</span><span>ETLs</span><span>Business Intelligence</span><span>Data Visualization</span></p>
               <a href="mailto:davo.zupernova@gmail.com">davo.zupernova@gmail.com</a>
             </div>
           </div>
         </article>
       </section>
     </div>
-    <footer>Ejemplo de dashboard comparando PIB de Latinoamérica con datos públicos del Banco Mundial.</footer>
+    <footer>Portafolio orientado al diseño de experiencias de análisis mediante automatización, visualización e integración de información.</footer>
   </main>
 
   <script>
