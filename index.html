@@ -3,20 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DavZK | GitHub Pages</title>
-  <meta name="description" content="Sitio personal de DavZK alojado en GitHub Pages.">
+  <title>DavZK | Datos que se vuelven decisiones</title>
+  <meta name="description" content="Experiencias de información, visualización y storytelling con datos públicos.">
   <style>
     :root {
-      --bg: #171a1f;
-      --bg-alt: #22262c;
-      --surface: rgba(255, 255, 255, 0.04);
-      --surface-strong: rgba(255, 255, 255, 0.08);
-      --text: #f3f5f7;
-      --muted: #b8c0ca;
-      --accent: #e3e8ee;
-      --accent-2: #97a3b3;
-      --border: rgba(255, 255, 255, 0.08);
-      --shadow: 0 28px 90px rgba(0, 0, 0, 0.35);
+      --bg: #121417;
+      --bg-alt: #20252b;
+      --surface: rgba(255, 255, 255, 0.035);
+      --surface-strong: rgba(255, 255, 255, 0.09);
+      --text: #f4f1e9;
+      --muted: #aeb5bb;
+      --accent: #f0c674;
+      --accent-2: #93a5b8;
+      --border: rgba(244, 241, 233, 0.13);
+      --shadow: 0 28px 90px rgba(0, 0, 0, 0.28);
     }
 
     * {
@@ -27,9 +27,8 @@
       margin: 0;
       min-height: 100%;
       background:
-        radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 28%),
-        radial-gradient(circle at 85% 15%, rgba(255, 255, 255, 0.04), transparent 20%),
-        linear-gradient(160deg, var(--bg), var(--bg-alt));
+        radial-gradient(circle at 12% 8%, rgba(240, 198, 116, 0.08), transparent 22%),
+        linear-gradient(145deg, var(--bg), var(--bg-alt));
       color: var(--text);
       font-family: "Segoe UI", Arial, sans-serif;
     }
@@ -139,18 +138,24 @@
       gap: 22px;
     }
 
+    .hero-copy h1,
+    .story-intro h2,
+    .story-step h3,
+    .reflection h2 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+    }
+
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 14px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
+      padding: 10px 0;
       color: var(--muted);
       font-size: 0.95rem;
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      background: var(--surface);
+      background: transparent;
     }
 
     .eyebrow span {
@@ -165,7 +170,7 @@
       margin: 18px 0 14px;
       font-size: clamp(2.7rem, 7.2vw, 6rem);
       line-height: 0.95;
-      letter-spacing: -0.05em;
+      letter-spacing: -0.04em;
       max-width: 11ch;
     }
 
@@ -219,11 +224,9 @@
     }
 
     .fact {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.055);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
-      padding: 18px;
+      border-top: 1px solid var(--border);
+      background: transparent;
+      padding: 16px 0 0;
       min-height: 132px;
     }
 
@@ -268,23 +271,138 @@
     .dashboard {
       display: grid;
       grid-template-columns: 1fr;
-      padding: 18px;
+      padding: 18px 0;
     }
 
     .chart-card {
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.045);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
-      padding: 18px;
+      padding: 18px 0;
+    }
+
+    .story-track {
+      display: grid;
+      grid-template-columns: minmax(220px, 0.55fr) minmax(0, 1.45fr);
+      gap: 48px;
+      align-items: start;
+      margin: 34px 0 42px;
+    }
+
+    .story-steps {
+      display: grid;
+      gap: 38px;
+      padding-top: 10px;
+    }
+
+    .story-step {
+      position: relative;
+      padding-left: 18px;
+      border-left: 1px solid var(--border);
+      opacity: 0.45;
+      transition: opacity 240ms ease, border-color 240ms ease;
+    }
+
+    .story-step::before {
+      content: "";
+      position: absolute;
+      top: 4px;
+      left: -4px;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background 240ms ease, transform 240ms ease;
+    }
+
+    .story-step.active {
+      border-color: var(--accent);
+      opacity: 1;
+    }
+
+    .story-step.active::before {
+      background: var(--accent);
+      transform: scale(1.35);
+    }
+
+    .story-step span {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--accent);
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .story-step h3 {
+      margin: 0 0 8px;
+      font-size: 1.35rem;
+    }
+
+    .story-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .story-scene {
+      position: sticky;
+      top: 34px;
+      min-height: 430px;
+      padding-top: 10px;
+    }
+
+    .scene-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 20px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .scene-label strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .scene-voice {
+      min-height: 48px;
+      margin: 0 0 18px;
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.35rem;
+      line-height: 1.25;
+    }
+
+    .reflection {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(220px, 0.7fr);
+      gap: 34px;
+      margin: 52px 0 26px;
+      padding: 32px 0 8px;
+      border-top: 1px solid var(--border);
+    }
+
+    .reflection h2 {
+      max-width: 17ch;
+      margin: 0;
+      font-size: clamp(1.7rem, 3.2vw, 2.7rem);
+      line-height: 1.05;
+    }
+
+    .reflection p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
     }
 
     .story-intro {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(240px, 0.65fr);
-      gap: 24px;
-      align-items: end;
-      margin: 4px 0 28px;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      margin: 4px 0 10px;
     }
 
     .story-kicker {
@@ -306,8 +424,9 @@
 
     .story-note {
       margin: 0;
-      padding-left: 18px;
-      border-left: 2px solid rgba(240, 198, 116, 0.65);
+      max-width: 66ch;
+      padding-left: 0;
+      border-left: 0;
       color: var(--muted);
       font-size: 0.98rem;
       line-height: 1.7;
@@ -317,14 +436,14 @@
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 10px;
-      margin: 0 0 24px;
+      margin: 0 0 28px;
     }
 
     .story-stat {
       min-height: 102px;
       padding: 14px 15px;
       border-top: 2px solid var(--stat-color, var(--accent-2));
-      background: rgba(255, 255, 255, 0.035);
+      background: transparent;
     }
 
     .story-stat strong {
@@ -395,9 +514,8 @@
       gap: 4px;
       padding: 4px;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.045);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
+      border-radius: 4px;
+      background: transparent;
     }
 
     .country-filter {
@@ -594,10 +712,6 @@
       font-weight: 600;
     }
 
-    @keyframes draw-series {
-      to { stroke-dashoffset: 0; }
-    }
-
     .chart-legend {
       display: flex;
       flex-wrap: wrap;
@@ -644,7 +758,7 @@
       border: 1px solid var(--border);
       border-radius: 18px;
       background: rgba(255, 255, 255, 0.045);
-      box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+      box-shadow: none;
       padding: 18px;
       display: grid;
       gap: 12px;
@@ -708,10 +822,18 @@
 
       .intro,
       .story-intro,
+      .story-track,
+      .reflection,
       .dashboard,
       .skills-contact,
       .quick-facts {
         grid-template-columns: 1fr;
+      }
+
+      .story-scene {
+        position: relative;
+        top: auto;
+        min-height: 0;
       }
 
       .story-stats {
@@ -757,15 +879,15 @@
 
   <main class="shell">
     <div class="content">
-      <div class="eyebrow"><span></span> GitHub Pages en construcción</div>
+      <div class="eyebrow"><span></span> Estudio de caso · Banco Mundial</div>
       <section id="perfil" class="intro">
         <div class="hero-copy">
           <div>
-            <h1>Dashboarding & Automation</h1>
+            <h1>Datos que se vuelven decisiones</h1>
             <p class="lead">
-              Portafolio técnico enfocado en dashboarding empresarial con inspiración en visualización editorial,
-              ETLs, automatización y sistemas de análisis pensados para negocio. El ejemplo principal comparará el PIB
-              de los países más relevantes de Latinoamérica usando la API gratuita del Banco Mundial.
+              Diseño experiencias de información para que los datos no solo se consulten: se entiendan. Esta pieza
+              observa la economía latinoamericana desde dos preguntas distintas, usando el PIB público del Banco Mundial
+              como materia prima para una historia visual.
             </p>
           </div>
 
@@ -783,7 +905,8 @@
           <div style="padding: 18px 20px; display: grid; gap: 14px;">
             <p class="lead" style="max-width: none; font-size: 1rem;">
               Desarrollo piezas visuales y flujos de datos para convertir información operativa en decisiones claras.
-              En este portafolio, el caso principal será un dashboard de ejemplo con datos públicos del Banco Mundial.
+              En este portafolio, cada caso convierte una fuente pública en una experiencia de lectura con contexto,
+              contraste y una pregunta que merece ser explorada.
             </p>
             <div class="quick-facts">
               <article class="fact">
@@ -820,30 +943,58 @@
                 transformaron con mayor intensidad su escala inicial.
               </p>
             </div>
-            <div id="story-stats" class="story-stats" aria-live="polite"></div>
-            <div class="chart-title">
-              <strong>Comparativa de PIB</strong>
-              <small>2006 - 2025 · dólares corrientes</small>
-            </div>
-            <p class="lead" style="max-width: none; font-size: 0.98rem;">
-              Sigue el recorrido de cada economía. Reproduce el tiempo para ver cómo se construye la distancia entre
-              las líneas o detén la escena y explórala país por país.
-            </p>
-            <div class="chart-controls" aria-label="Controles de la gráfica">
-              <button id="play-chart" class="play-button" type="button" aria-pressed="false">▶ Reproducir</button>
-              <div class="control-group" role="group" aria-label="Métrica">
-                <button class="control-button active" type="button" data-metric="absolute">PIB total</button>
-                <button class="control-button" type="button" data-metric="normalized">Base 2006 = 100</button>
+            <div class="story-track">
+              <div class="story-steps" aria-label="Capítulos de la historia">
+                <article class="story-step active" data-story-step="scale">
+                  <span>01 · El paisaje</span>
+                  <h3>Primero, la escala</h3>
+                  <p>La altura de las líneas revela el peso relativo de cada economía en 2025.</p>
+                </article>
+                <article class="story-step" data-story-step="change">
+                  <span>02 · El recorrido</span>
+                  <h3>Después, el cambio</h3>
+                  <p>La misma escena puede leerse desde 2006 para descubrir quién se alejó más de su punto de partida.</p>
+                </article>
+                <article class="story-step" data-story-step="explore">
+                  <span>03 · Tu lectura</span>
+                  <h3>Ahora, explora</h3>
+                  <p>Filtra países, pausa el tiempo y busca el patrón que no aparece a primera vista.</p>
+                </article>
               </div>
-              <div class="control-group" role="group" aria-label="Escala vertical">
-                <button class="control-button active" type="button" data-scale="linear">Lineal</button>
-                <button class="control-button" type="button" data-scale="log">Logarítmica</button>
+
+              <div class="story-scene">
+                <div class="scene-label"><strong id="scene-label">La escena</strong><span>2006 - 2025 · Banco Mundial</span></div>
+                <p id="scene-voice" class="scene-voice">El mapa económico se dibuja por diferencia de escala.</p>
+                <div id="story-stats" class="story-stats" aria-live="polite"></div>
+                <div class="chart-title">
+                  <strong>Comparativa de PIB</strong>
+                  <small>dólares corrientes</small>
+                </div>
+                <div class="chart-controls" aria-label="Controles de la gráfica">
+                  <button id="play-chart" class="play-button" type="button" aria-pressed="false">▶ Reproducir</button>
+                  <div class="control-group" role="group" aria-label="Métrica">
+                    <button class="control-button active" type="button" data-metric="absolute">PIB total</button>
+                    <button class="control-button" type="button" data-metric="normalized">Base 2006 = 100</button>
+                  </div>
+                  <div class="control-group" role="group" aria-label="Escala vertical">
+                    <button class="control-button active" type="button" data-scale="linear">Lineal</button>
+                    <button class="control-button" type="button" data-scale="log">Logarítmica</button>
+                  </div>
+                </div>
+                <div id="country-filter" class="country-filter" aria-label="Países a graficar"></div>
+                <div id="gdp-status" class="status">Cargando datos del Banco Mundial...</div>
+                <div id="gdp-chart"></div>
+                <p id="chart-reading" class="chart-reading"><span><strong>Cómo leerla:</strong> la altura muestra escala económica y el recorrido muestra cambio.</span><span>Fuente: Banco Mundial</span></p>
               </div>
             </div>
-            <div id="country-filter" class="country-filter" aria-label="Países a graficar"></div>
-            <div id="gdp-status" class="status">Cargando datos del Banco Mundial...</div>
-            <div id="gdp-chart"></div>
-            <p id="chart-reading" class="chart-reading"><span><strong>Cómo leerla:</strong> la altura muestra escala económica y el recorrido muestra cambio.</span><span>Fuente: Banco Mundial</span></p>
+            <div class="reflection">
+              <h2>Una posición no explica un destino.</h2>
+              <p>
+                El PIB absoluto ordena las economías por volumen, pero no cuenta cuánto tuvo que transformarse cada
+                una para llegar allí. Cambiar de escala es también cambiar de historia. La comparación es más útil
+                cuando deja espacio para ambas lecturas.
+              </p>
+            </div>
           </article>
         </div>
       </section>
@@ -908,8 +1059,13 @@
     const countryFilter = document.getElementById('country-filter');
     const storyStats = document.getElementById('story-stats');
     const chartReading = document.getElementById('chart-reading');
+    const sceneLabel = document.getElementById('scene-label');
+    const sceneVoice = document.getElementById('scene-voice');
+    const storySteps = [...document.querySelectorAll('[data-story-step]')];
     const selectedCountryCodes = new Set(countries.map((country) => country.code));
     const countryColors = ['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'];
+
+    let activeStoryMode = 'scale';
 
     function formatBillions(value) {
       return `${formatUsd.format(value / 1e9)} US$`;
@@ -929,7 +1085,15 @@
         return;
       }
 
-      const largest = [...series].sort((left, right) => getLastFinite(right.values) - getLastFinite(left.values))[0];
+      const largest = [...series].sort((left, right) => {
+        if (activeMetric === 'normalized') {
+          const leftIndex = getLastFinite(left.values) / getFirstFinite(left.values);
+          const rightIndex = getLastFinite(right.values) / getFirstFinite(right.values);
+          return rightIndex - leftIndex;
+        }
+
+        return getLastFinite(right.values) - getLastFinite(left.values);
+      })[0];
       const fastest = [...series].sort((left, right) => {
         const leftGrowth = getLastFinite(left.values) / getFirstFinite(left.values);
         const rightGrowth = getLastFinite(right.values) / getFirstFinite(right.values);
@@ -937,13 +1101,14 @@
       })[0];
       const latestYear = years[years.length - 1];
       const firstYear = years[0];
+      const largestIndex = (getLastFinite(largest.values) / getFirstFinite(largest.values)) * 100;
       const fastestGrowth = ((getLastFinite(fastest.values) / getFirstFinite(fastest.values)) - 1) * 100;
       const metricLabel = activeMetric === 'normalized' ? 'comparación base 2006 = 100' : 'PIB corriente';
 
       storyStats.innerHTML = `
         <article class="story-stat" style="--stat-color:${countryColors[countries.findIndex((item) => item.code === largest.code)]}">
           <strong>${largest.name}</strong>
-          <span>mayor escala en ${latestYear}: ${formatBillions(getLastFinite(largest.values))}</span>
+          <span>${activeMetric === 'normalized' ? `mayor índice en ${latestYear}: ${largestIndex.toFixed(0)}` : `mayor escala en ${latestYear}: ${formatBillions(getLastFinite(largest.values))}`}</span>
         </article>
         <article class="story-stat" style="--stat-color:${countryColors[countries.findIndex((item) => item.code === fastest.code)]}">
           <strong>${fastest.name}</strong>
@@ -958,6 +1123,31 @@
       chartReading.innerHTML = activeMetric === 'normalized'
         ? '<span><strong>Lectura activa:</strong> cada país parte de 100; observa quién se aleja más de su punto de partida.</span><span>Fuente: Banco Mundial</span>'
         : '<span><strong>Lectura activa:</strong> la altura muestra escala económica; observa quién domina el paisaje.</span><span>Fuente: Banco Mundial</span>';
+    }
+
+    function updateStoryVoice(mode = activeStoryMode) {
+      activeStoryMode = mode;
+      storySteps.forEach((step) => step.classList.toggle('active', step.dataset.storyStep === mode));
+
+      const voices = {
+        scale: {
+          label: 'La escena',
+          text: activeMetric === 'normalized'
+            ? 'Todos parten del mismo punto: ahora la distancia revela el ritmo de transformación.'
+            : 'El mapa económico se dibuja por diferencia de escala.',
+        },
+        change: {
+          label: 'El recorrido',
+          text: 'La pregunta cambia: no quién es más grande, sino quién avanzó más desde su origen.',
+        },
+        explore: {
+          label: 'Tu lectura',
+          text: 'Elige una combinación de países y busca la relación que el conjunto completo oculta.',
+        },
+      };
+
+      sceneLabel.textContent = voices[mode].label;
+      sceneVoice.textContent = voices[mode].text;
     }
 
     function createLineChart(series, metric, scale) {
@@ -1167,6 +1357,7 @@
     function renderChart() {
       const visibleSeries = activeSeries.filter((country) => selectedCountryCodes.has(country.code));
       renderStoryStats(visibleSeries);
+      updateStoryVoice();
       gdpChart.innerHTML = createLineChart(visibleSeries, activeMetric, activeScale);
       activeInteraction = setupChartInteraction(visibleSeries, activeMetric, activeScale);
       if (playState.isPlaying) {
@@ -1300,6 +1491,7 @@
       button.addEventListener('click', () => {
         activeMetric = button.dataset.metric;
         document.querySelectorAll('[data-metric]').forEach((item) => item.classList.toggle('active', item === button));
+        updateStoryVoice();
         if (activeSeries.length) {
           renderChart();
         }
@@ -1336,6 +1528,18 @@
     }, { rootMargin: '-25% 0px -55% 0px', threshold: [0.1, 0.35, 0.6] });
 
     ribbonSections.forEach((section) => sectionObserver.observe(section));
+
+    const storyStepObserver = new IntersectionObserver((entries) => {
+      const visibleStep = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((left, right) => right.intersectionRatio - left.intersectionRatio)[0];
+
+      if (visibleStep) {
+        updateStoryVoice(visibleStep.target.dataset.storyStep);
+      }
+    }, { rootMargin: '-34% 0px -46% 0px', threshold: [0.2, 0.6] });
+
+    storySteps.forEach((step) => storyStepObserver.observe(step));
 
     loadGdpComparison();
   </script>
