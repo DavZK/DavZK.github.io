@@ -863,6 +863,8 @@
         return `<text class="axis-label" x="${x}" y="${height - 20}" text-anchor="middle">${year}</text>`;
       }).join('');
       const lines = chartSeries.map((country, countryIndex) => {
+        const colorIndex = countries.findIndex((item) => item.code === country.code);
+        const countryColor = colors[colorIndex >= 0 ? colorIndex : countryIndex % colors.length];
         const points = country.chartValues.map((value, index) => {
           const x = xPosition(index);
           const y = yPosition(value);
@@ -874,11 +876,15 @@
             return '';
           }
 
-          return `<circle class="chart-point" data-country="${countryIndex}" data-index="${index}" cx="${xPosition(index)}" cy="${yPosition(value)}" r="5" fill="${colors[countryIndex % colors.length]}"></circle>`;
+          return `<circle class="chart-point" data-country="${countryIndex}" data-index="${index}" cx="${xPosition(index)}" cy="${yPosition(value)}" r="5" fill="${countryColor}"></circle>`;
         }).join('');
-        return `<path class="series-line" data-country="${countryIndex}" d="${points}" stroke="${colors[countryIndex % colors.length]}" style="--series-delay:${delay}"><title>${country.name}</title></path>${pointsMarkup}`;
+        return `<path class="series-line" data-country="${countryIndex}" d="${points}" stroke="${countryColor}" style="--series-delay:${delay}"><title>${country.name}</title></path>${pointsMarkup}`;
       }).join('');
-      const legend = chartSeries.map((country, countryIndex) => `<span class="legend-item"><i class="legend-dot" style="background:${colors[countryIndex % colors.length]}"></i>${country.name}</span>`).join('');
+      const legend = chartSeries.map((country, countryIndex) => {
+        const colorIndex = countries.findIndex((item) => item.code === country.code);
+        const countryColor = colors[colorIndex >= 0 ? colorIndex : countryIndex % colors.length];
+        return `<span class="legend-item"><i class="legend-dot" style="background:${countryColor}"></i>${country.name}</span>`;
+      }).join('');
 
       return `
         <div class="chart-frame">
