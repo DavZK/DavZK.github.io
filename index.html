@@ -395,14 +395,9 @@
       stroke-linecap: round;
       stroke-linejoin: round;
       opacity: 0.9;
-      transition: opacity 180ms ease, stroke-width 180ms ease;
-    }
-
-    .line-chart.is-animated .series-line {
-      stroke-dasharray: 1800;
-      stroke-dashoffset: 1800;
-      animation: draw-series 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-      animation-delay: var(--series-delay);
+      stroke-dasharray: var(--path-length, 1800);
+      stroke-dashoffset: var(--trace-offset, 0);
+      transition: opacity 180ms ease, stroke-width 180ms ease, stroke-dashoffset 560ms ease;
     }
 
     .line-chart .series-line.is-highlighted {
@@ -858,6 +853,12 @@
       const left = 72;
       let activeIndex = null;
 
+      paths.forEach((path) => {
+        const pathLength = path.getTotalLength();
+        path.style.setProperty('--path-length', pathLength);
+        path.style.setProperty('--trace-offset', '0');
+      });
+
       const chartSeries = series.map((country) => {
         const baseValue = country.values.find(Number.isFinite);
         return {
@@ -874,6 +875,12 @@
         crosshair.setAttribute('x1', x);
         crosshair.setAttribute('x2', x);
         crosshair.style.opacity = '1';
+
+        const traceProgress = activeIndex / Math.max(years.length - 1, 1);
+        paths.forEach((path) => {
+          const pathLength = Number(path.style.getPropertyValue('--path-length'));
+          path.style.setProperty('--trace-offset', pathLength * (1 - traceProgress));
+        });
 
         paths.forEach((path, countryIndex) => {
           path.classList.remove('is-highlighted');
