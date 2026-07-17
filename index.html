@@ -913,10 +913,34 @@
       const left = 72;
       let activeIndex = null;
 
-      paths.forEach((path) => {
+      const traceLengths = paths.map((path) => {
         const pathLength = path.getTotalLength();
         path.style.setProperty('--path-length', pathLength);
         path.style.setProperty('--trace-offset', '0');
+
+        const yearLengths = years.map((year, yearIndex) => {
+          if (yearIndex === 0) {
+            return 0;
+          }
+
+          const targetX = left + (chartWidth / (years.length - 1)) * yearIndex;
+          let start = 0;
+          let end = pathLength;
+
+          for (let iteration = 0; iteration < 24; iteration += 1) {
+            const middle = (start + end) / 2;
+            const point = path.getPointAtLength(middle);
+            if (point.x < targetX) {
+              start = middle;
+            } else {
+              end = middle;
+            }
+          }
+
+          return (start + end) / 2;
+        });
+
+        return { pathLength, yearLengths };
       });
 
       const chartSeries = series.map((country) => {
@@ -936,10 +960,10 @@
         crosshair.setAttribute('x2', x);
         crosshair.style.opacity = '1';
 
-        const traceProgress = activeIndex / Math.max(years.length - 1, 1);
-        paths.forEach((path) => {
-          const pathLength = Number(path.style.getPropertyValue('--path-length'));
-          path.style.setProperty('--trace-offset', pathLength * (1 - traceProgress));
+        paths.forEach((path, pathIndex) => {
+          const { pathLength, yearLengths } = traceLengths[pathIndex];
+          const tracedLength = yearLengths[activeIndex];
+          path.style.setProperty('--trace-offset', pathLength - tracedLength);
         });
 
         paths.forEach((path) => {
