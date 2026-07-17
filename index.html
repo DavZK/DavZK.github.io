@@ -322,6 +322,56 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.16);
     }
 
+    .country-filter {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .country-option {
+      position: relative;
+    }
+
+    .country-option input {
+      position: absolute;
+      inline-size: 1px;
+      block-size: 1px;
+      opacity: 0;
+    }
+
+    .country-option label {
+      display: inline-flex;
+      align-items: center;
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 0.86rem;
+      transition: color 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+
+    .country-option input:checked + label,
+    .country-option label:hover,
+    .country-option input:focus-visible + label {
+      border-color: rgba(227, 232, 238, 0.45);
+      background: var(--surface-strong);
+      color: var(--text);
+    }
+
+    .country-option input:checked + label::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      margin-right: 7px;
+      border-radius: 50%;
+      background: var(--country-color);
+      box-shadow: 0 0 8px var(--country-color);
+    }
+
     .control-button {
       min-height: 34px;
       padding: 0 11px;
@@ -691,6 +741,7 @@
                 <button class="control-button" type="button" data-scale="log">Logarítmica</button>
               </div>
             </div>
+            <div id="country-filter" class="country-filter" aria-label="Países a graficar"></div>
             <div id="gdp-status" class="status">Cargando datos del Banco Mundial...</div>
             <div id="gdp-chart"></div>
           </article>
@@ -754,6 +805,9 @@
 
     const gdpChart = document.getElementById('gdp-chart');
     const gdpStatus = document.getElementById('gdp-status');
+    const countryFilter = document.getElementById('country-filter');
+    const selectedCountryCodes = new Set(countries.map((country) => country.code));
+    const countryColors = ['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'];
 
     function formatBillions(value) {
       return `${formatUsd.format(value / 1e9)} US$`;
@@ -782,7 +836,7 @@
       const maxLog = Math.log10(maxValue);
       const yTicks = 5;
       const xStep = chartWidth / Math.max(years.length - 1, 1);
-      const colors = ['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'];
+      const colors = countryColors;
 
       const xPosition = (index) => left + index * xStep;
       const yPosition = (value) => {
@@ -882,7 +936,7 @@
           path.style.setProperty('--trace-offset', pathLength * (1 - traceProgress));
         });
 
-        paths.forEach((path, countryIndex) => {
+        paths.forEach((path) => {
           path.classList.remove('is-highlighted');
           path.classList.remove('is-muted');
         });
@@ -897,7 +951,7 @@
           const display = metric === 'normalized'
             ? `${Number.isFinite(value) ? value.toFixed(1) : 'N/D'}`
             : Number.isFinite(value) ? formatBillions(value) : 'N/D';
-          return `<div class="tooltip-row"><span style="color:${['#f0c674', '#81a1c1', '#bf616a', '#a3be8c', '#b48ead', '#88c0d0'][countryIndex]}">${country.name}</span><strong>${display}</strong></div>`;
+          return `<div class="tooltip-row"><span style="color:${countryColors[countries.findIndex((item) => item.code === country.code)]}">${country.name}</span><strong>${display}</strong></div>`;
         }).join('');
         tooltip.innerHTML = `<span class="tooltip-year">${years[activeIndex]}</span>${rows}`;
         const frameWidth = frame.clientWidth;
@@ -934,11 +988,55 @@
     let activeScale = 'linear';
 
     function renderChart() {
-      gdpChart.innerHTML = createLineChart(activeSeries, activeMetric, activeScale);
-      activeInteraction = setupChartInteraction(activeSeries, activeMetric, activeScale);
+      const visibleSeries = activeSeries.filter((country) => selectedCountryCodes.has(country.code));
+      gdpChart.innerHTML = createLineChart(visibleSeries, activeMetric, activeScale);
+      activeInteraction = setupChartInteraction(visibleSeries, activeMetric, activeScale);
       if (playState.isPlaying) {
         startPlayback();
       }
+    }
+
+    function renderCountryFilter() {
+      const allSelected = selectedCountryCodes.size === countries.length;
+      const allOption = `<div class="country-option"><input id="country-all" type="checkbox" ${allSelected ? 'checked' : ''}><label for="country-all">Todos</label></div>`;
+      const countryOptions = countries.map((country, countryIndex) => `
+        <div class="country-option" style="--country-color:${countryColors[countryIndex]}">
+          <input id="country-${country.code.toLowerCase()}" type="checkbox" data-country-code="${country.code}" ${selectedCountryCodes.has(country.code) ? 'checked' : ''}>
+          <label for="country-${country.code.toLowerCase()}">${country.name}</label>
+        </div>
+      `).join('');
+      countryFilter.innerHTML = allOption + countryOptions;
+
+      countryFilter.querySelector('#country-all').addEventListener('change', (event) => {
+        countries.forEach((country) => {
+          selectedCountryCodes.delete(country.code);
+        });
+        if (event.target.checked) {
+          countries.forEach((country) => selectedCountryCodes.add(country.code));
+        } else {
+          selectedCountryCodes.add(countries[0].code);
+        }
+        renderCountryFilter();
+        if (activeSeries.length) {
+          renderChart();
+        }
+      });
+
+      countryFilter.querySelectorAll('[data-country-code]').forEach((input) => {
+        input.addEventListener('change', (event) => {
+          if (event.target.checked) {
+            selectedCountryCodes.add(event.target.dataset.countryCode);
+          } else if (selectedCountryCodes.size > 1) {
+            selectedCountryCodes.delete(event.target.dataset.countryCode);
+          } else {
+            event.target.checked = true;
+          }
+          renderCountryFilter();
+          if (activeSeries.length) {
+            renderChart();
+          }
+        });
+      });
     }
 
     function stopPlayback() {
@@ -1017,6 +1115,8 @@
         startPlayback();
       }
     });
+
+    renderCountryFilter();
 
     document.querySelectorAll('[data-metric]').forEach((button) => {
       button.addEventListener('click', () => {
